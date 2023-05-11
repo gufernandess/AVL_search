@@ -8,9 +8,7 @@ template <typename type> struct Node {
     Node *left;
     Node *right;
 
-    Node(type key, Node *left = nullptr, Node *right = nullptr, int height = 1) {
-        this->key = key;
-    }
+    Node(type key) : key(key), height(1), left(nullptr), right(nullptr) {}
 };
 
 #endif

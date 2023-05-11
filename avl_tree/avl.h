@@ -12,34 +12,35 @@ template <typename type> class avl_tree {
 
 public:
 
+    avl_tree() = default;
+    avl_tree(const avl_tree& t) = delete;
     void add(type key);
     void bshow() const;
     void clear();
     void remove(type key);
-    void search(type key);
 
     ~avl_tree();
     
 private:
 
-    int height(Node *node);
-    int balance(Node *node);
+    Node<type> *root {nullptr};
 
-    Node* rightRotation(Node *node);
-    Node* leftRotation(Node *node);
-    Node* fixup_node(Node *node, type key);
+    int height(Node<type> *node);
+    int balance(Node<type> *node);
+
+    Node<type>* rightRotation(Node<type> *node);
+    Node<type>* leftRotation(Node<type> *node);
+    Node<type>* fixup_node(Node<type> *node, type key);
 
 
-    Node* add(Node *node, type key);
-    Node* clear(Node *node);
-    Node* fixup_deletion(Node *node);
-    Node* remove(Node *node, type key); 
-    Node* remove_successor(Node *root, Node *node);
+    Node<type>* add(Node<type> *node, type key);
+    Node<type>* clear(Node<type> *node);
+    Node<type>* fixup_deletion(Node<type> *node);
+    Node<type>* remove(Node<type> *node, type key); 
+    Node<type>* remove_successor(Node<type> *root, Node<type> *node);
 
-    void bshow(Node *node, std::string heritage) const;
+    void bshow(Node<type> *node, std::string heritage) const;
 };
-
-/*----------------------------------------------------------------------------------------*/
 
 template <typename type>
 void avl_tree<type>::add(type key) {
@@ -62,17 +63,9 @@ void avl_tree<type>::remove(type key) {
 }
 
 template <typename type>
-void avl_tree<type>::search(type key) {
-    return search(root, key);
-}
-
-template <typename type>
 avl_tree<type>::~avl_tree() {
     clear();
 }
-
-/*----------------------------------------------------------------------------------------*/
-
 
 template <typename type>
 int avl_tree<type>::height(Node<type> *node) {
@@ -86,7 +79,7 @@ int avl_tree<type>::balance(Node<type> *node) {
 
 template <typename type>
 Node<type>* avl_tree<type>::rightRotation(Node<type> *node) {
-    Node *aux = node->left;
+    Node<type>* aux = node->left;
 
     node->left = aux->right;
     aux->right = node;
@@ -99,7 +92,7 @@ Node<type>* avl_tree<type>::rightRotation(Node<type> *node) {
 
 template <typename type>
 Node<type>* avl_tree<type>::leftRotation(Node<type> *node) {
-    Node *aux = node->right;
+    Node<type>*aux = node->right;
 
     node->right = aux->left;
     aux->left = node;
@@ -137,7 +130,7 @@ Node<type>* avl_tree<type>::fixup_node(Node<type> *node, type key) {
 
 template <typename type>
 Node<type>* avl_tree<type>::add(Node<type> *node, type key) {
-    if(node == nullptr) return new Node(key);
+    if(node == nullptr) return new Node<type>(key);
 
     if(node->key == key) return node;
 
@@ -197,7 +190,7 @@ Node<type>* avl_tree<type>::remove(Node<type> *node, type key) {
     else if(key > node->key) node->right = remove(node->right, key);
 
     else if(node->right == nullptr) {
-        Node *child = node->left;
+        Node<type>* child = node->left;
 
         delete node;
 
