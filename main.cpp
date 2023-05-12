@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <Windows.h> // Biblioteca para trabalhar no ambiente do sistema operacional Windows
+#include <Windows.h> // Biblioteca para trabalhar no ambiente do sistema operacional Windows.
 
 #include "person/Person.h"
 #include "avl_tree/avl.h"
@@ -15,7 +15,7 @@ using namespace std;
  * em linhas.
 */
 
-vector<string>split(const string& str, char delimiter) {
+vector<string> split(const string& str, char delimiter) {
     vector<string> lines;
     string line;
     istringstream tokenStream(str);
@@ -27,31 +27,49 @@ vector<string>split(const string& str, char delimiter) {
     return lines;
 }
 
-int main() {
-	system("chcp 65001 > nul"); // Define o encode para impressão correta das árvores
-    SetConsoleOutputCP(CP_UTF8); // Define a codificação do console para UTF-8
+/**
+ * Função para ler o arquivo CSV e retornar um vetor com os objetos
+ * Person contidos no arquivo.
+*/
 
-	ifstream file("data.csv");
+vector<Person> read_csv(string file_name) {
+    ifstream file(file_name);
     string line;
+
     vector<Person> people;
 
     while(getline(file, line)) {
         vector<string> row = split(line, ',');
+
+        Date date = Date::to_date(row[3]);
 		
-        Person person(row[0], row[1], row[2], row[3], row[4]);
+        Person person(row[0], row[1], row[2], date, row[4]);
         
         people.push_back(person);
     }
 
     file.close();
 
-    avl_tree<string> t;
+    return people;
+}
 
-	for(int i = 0; i < people.size(); i++) {
-	    t.add(people[i].getCpf());
+int main() {
+	system("chcp 65001 > nul"); // Define o encode para impressão correta das árvores (usado para a função bshow).
+    SetConsoleOutputCP(CP_UTF8); // Define a codificação do console para UTF-8 (usado para reonhecer a codificação do CSV).
+
+    vector<Person> people = read_csv("data.csv");
+
+    avl_tree<string> avl_tree_cpf;
+
+    avl_tree<string> avl_tree_name;
+
+    avl_tree<Date> avl_tree_birthdate;
+
+	for(Person person : people) {
+	    avl_tree_cpf.add(person.getCpf());
+        avl_tree_name.add(person.getName());
+        avl_tree_birthdate.add(person.getBirthdate());
 	}
-
-    t.bshow();
 
     return 0;
 }
