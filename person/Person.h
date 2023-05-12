@@ -4,14 +4,15 @@
 #include <string>
 
 #include "../date/Date.h"
+#include "../cpf/CPF.h"
 class Person {
 
 public:
-     Person(unsigned long long int cpf, std::string name, std::string surname, Date birthdate, std::string hometown) 
+     Person(CPF cpf, std::string name, std::string surname, Date birthdate, std::string hometown) 
            : cpf(cpf), name(name), surname(surname), 
              birthdate(birthdate), hometown(hometown) {};
 
-    unsigned long long int getCpf() const { return cpf; }
+    CPF getCpf() const { return cpf; }
     std::string getName() const { return name; }
     std::string getSurname() const { return surname; }
     Date getBirthdate() const { return birthdate; }
@@ -19,7 +20,7 @@ public:
 
 private:
 
-	unsigned long long int cpf; // Não é possível que o CPF seja do tipo inteiro (Problema do valor octal).
+	CPF cpf; // Não é possível que o CPF seja do tipo inteiro (Problema do valor octal).
     std::string name;
     std::string surname;
     Date birthdate;

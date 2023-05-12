@@ -8,6 +8,7 @@
 class Date {
 
 public:
+
      Date(unsigned short int month, unsigned short int day, unsigned short int year) 
            : month(month), day(day), year(year) {}
 
