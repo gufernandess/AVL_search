@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #include <Windows.h> // Biblioteca para trabalhar no ambiente do sistema operacional Windows.
 
@@ -42,8 +43,17 @@ vector<Person> read_csv(string file_name) {
         vector<string> row = split(line, ',');
 
         Date date = Date::to_date(row[3]);
+
+        /**
+         * Removendo os pontos e o traço do CPF para transformá-lo em inteiro
+        */
+
+        row[0].erase(remove(row[0].begin(), row[0].end(), '.'), row[0].end());
+        row[0].erase(remove(row[0].begin(), row[0].end(), '-'), row[0].end());
+
+        unsigned long long int cpf = static_cast<unsigned long long int>(std::stoll(row[0]));
 		
-        Person person(row[0], row[1], row[2], date, row[4]);
+        Person person(cpf, row[1], row[2], date, row[4]);
         
         people.push_back(person);
     }
@@ -59,7 +69,7 @@ int main() {
 
     vector<Person> people = read_csv("data.csv");
 
-    avl_tree<string> avl_tree_cpf;
+    avl_tree<unsigned long long int> avl_tree_cpf;
 
     avl_tree<string> avl_tree_name;
 
@@ -70,6 +80,8 @@ int main() {
         avl_tree_name.add(person.getName());
         avl_tree_birthdate.add(person.getBirthdate());
 	}
+
+    avl_tree_birthdate.bshow();
 
     return 0;
 }
