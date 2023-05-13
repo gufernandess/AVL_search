@@ -29,7 +29,7 @@ public:
         return Date(date_values[0], date_values[1], date_values[2]);
     }
 
-    // Sobrecarga de operadores (==, >, <).
+    // Sobrecarga de operadores (==, >, <, >=, <=).
 
     bool operator==(const Date& date) const {
     return month == date.month && day == date.day && year == date.year;
@@ -62,6 +62,14 @@ public:
 
         return false;
     }
+
+    bool operator>=(const Date& date) const {
+    return !(*this < date);
+  }
+
+  bool operator<=(const Date& date) const {
+    return (*this == date) || (*this < date);
+  }
 
     unsigned short int getMonth() const { return month; }
     unsigned short int getDay() const { return day; }

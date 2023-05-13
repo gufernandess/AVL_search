@@ -55,6 +55,13 @@ public:
         return this->cpf > cpf.getCPF();
     }
 
+    bool operator<=(const CPF& cpf) const {
+        return this->cpf <= cpf.getCPF();
+    }
+    bool operator>=(const CPF& cpf) const {
+        return this->cpf >= cpf.getCPF();
+    }
+
     unsigned long long int getCPF() const { return cpf; }
 
 private:
