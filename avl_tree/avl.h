@@ -3,8 +3,12 @@
 
 #include <iostream>
 #include <string>
+#include <stack>
 
 #include "node.h"
+
+#include "../person/Person.h"
+#include "../cpf/CPF.h"
 
 using namespace std;
 
@@ -13,16 +17,20 @@ template <typename type> class avl_tree {
 public:
 
     avl_tree() = default;
-    avl_tree(const avl_tree& t) = delete;
-    void add(type key);
+    avl_tree(const avl_tree& tree) = delete;
+    void add(type key, Person *pointer_to_person);
     void bshow() const;
     void clear();
 
+    Person search_by_CPF(CPF cpf);
+    vector<Person> search_by_name(string name);
+
     ~avl_tree();
+
     
 private:
 
-    Node<type> *root {nullptr};
+    Node<type> *root { nullptr };
 
     int height(Node<type> *node);
     int balance(Node<type> *node);
@@ -32,15 +40,19 @@ private:
     Node<type>* fixup_node(Node<type> *node, type key);
 
 
-    Node<type>* add(Node<type> *node, type key);
+    Node<type>* add(Node<type> *node, type key, Person *pointer_to_person);
     Node<type>* clear(Node<type> *node);
 
+    Person* search_by_CPF(Node<CPF> *node, CPF cpf);
+    vector<Person*> search_by_name(Node<string> *node, string name);
+
     void bshow(Node<type> *node, std::string heritage) const;
+
 };
 
 template <typename type>
-void avl_tree<type>::add(type key) {
-    root = add(root, key);
+void avl_tree<type>::add(type key, Person *pointer_to_person) {
+    root = add(root, key, pointer_to_person);
 }
 
 template <typename type>
@@ -54,9 +66,26 @@ void avl_tree<type>::clear() {
 }
 
 template <typename type>
+Person avl_tree<type>::search_by_CPF(CPF cpf) {
+   return *search_by_CPF(root, cpf);
+}
+
+template <typename type>
+vector<Person> avl_tree<type>::search_by_name(string name) {
+   vector<Person> people;
+
+   for(Person *person : search_by_name(root, name)) {
+        people.push_back(*person);
+   }
+
+   return people;
+}
+
+template <typename type>
 avl_tree<type>::~avl_tree() {
     clear();
 }
+
 
 template <typename type>
 int avl_tree<type>::height(Node<type> *node) {
@@ -126,17 +155,17 @@ Node<type>* avl_tree<type>::fixup_node(Node<type> *node, type key) {
 }
 
 /**
- * Assim como dito por Thomas Cormen, nós com chaves repetidas
+ * Assim como sugerido por Thomas Cormen, nós com chaves repetidas
  * são adicionados á direita.
 */
 
 template <typename type>
-Node<type>* avl_tree<type>::add(Node<type> *node, type key) {
-    if(node == nullptr) return new Node<type>(key);
+Node<type>* avl_tree<type>::add(Node<type> *node, type key, Person *pointer_to_person) {
+    if(node == nullptr) return new Node<type>(key, pointer_to_person);
 
-    if(node->key > key) node->left = add(node->left, key);
+    if(node->key > key) node->left = add(node->left, key, pointer_to_person);
 
-    else node->right = add(node->right, key);
+    else node->right = add(node->right, key, pointer_to_person);
     
     node = fixup_node(node, key);
 
@@ -153,6 +182,47 @@ Node<type>* avl_tree<type>::clear(Node<type> *node) {
     }
 
     return nullptr;
+}
+
+/**
+ * A pesquisa por CPF é feita de forma recursiva, e retorna um ponteiro
+ * para a pessoa que possui o CPF pesquisado, que é acessado pela função
+ * pública.
+*/
+
+template <>
+Person* avl_tree<CPF>::search_by_CPF(Node<CPF> *node, CPF cpf) {
+    if(node == nullptr) return nullptr;
+
+    if(node->key == cpf) return node->pointer_to_person;
+
+    else if(node->key > cpf) return search_by_CPF(node->left, cpf);
+
+    return search_by_CPF(node->right, cpf);
+}
+
+template <>
+vector<Person*> avl_tree<string>::search_by_name(Node<string> *node, string name) {
+    vector<Person*> people_with_name;
+    stack<Node<string>*> nodes_stack;
+
+    while(node != nullptr || !nodes_stack.empty()) {
+        while(node != nullptr) {
+            nodes_stack.push(node);
+            node = node->left;
+        }
+
+        node = nodes_stack.top();
+        nodes_stack.pop();
+
+        if(node->key.substr(0, name.length()) == name) {
+            people_with_name.push_back(node->pointer_to_person);
+        }
+
+        node = node->right;
+    }
+
+    return people_with_name;
 }
 
 template <typename type>
