@@ -22,7 +22,7 @@ int main() {
 	    avl_tree_cpf.add(people[i].getCpf(), &people[i]);
         avl_tree_name.add(people[i].getName() + " " + people[i].getSurname(), &people[i]);
         avl_tree_birthdate.add(people[i].getBirthdate(), &people[i]);
-	}
+	}   
 
     return 0;
 }

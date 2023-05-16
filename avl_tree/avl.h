@@ -9,6 +9,7 @@
 
 #include "../person/Person.h"
 #include "../cpf/CPF.h"
+#include "../date/Date.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ public:
 
     Person search_by_CPF(CPF cpf);
     vector<Person> search_by_name(string name);
+    vector<Person> search_by_date(Date initial_date, Date final_date);
 
     ~avl_tree();
 
@@ -45,6 +47,7 @@ private:
 
     Person* search_by_CPF(Node<CPF> *node, CPF cpf);
     vector<Person*> search_by_name(Node<string> *node, string name);
+    vector<Person*> search_by_date(Node<Date> *node, Date initial_date, Date final_date);
 
     void bshow(Node<type> *node, std::string heritage) const;
 
@@ -65,10 +68,19 @@ void avl_tree<type>::clear() {
     root = clear(root);
 }
 
+/**
+ * A função pública de pesquisa de CPF retorna uma instância de Person
+*/
+
 template <typename type>
 Person avl_tree<type>::search_by_CPF(CPF cpf) {
    return *search_by_CPF(root, cpf);
 }
+
+/**
+ * A função pública de pesquisa de nome retorna um vetor de instâncias
+ * de Person que possuem o nome passado como parâmetro.
+*/
 
 template <typename type>
 vector<Person> avl_tree<type>::search_by_name(string name) {
@@ -79,6 +91,22 @@ vector<Person> avl_tree<type>::search_by_name(string name) {
    }
 
    return people;
+}
+
+/**
+ * A função pública de pesquisa de data retorna um vetor de instâncias
+ * de Person baseado em um intervalo de datas.
+*/
+
+template <typename type>
+vector<Person> avl_tree<type>::search_by_date(Date initial_date, Date final_date) {
+    vector<Person> people;
+    
+    for(Person *person : search_by_date(root, initial_date, final_date)) {
+          people.push_back(*person);
+    }
+    
+    return people;
 }
 
 template <typename type>
@@ -201,19 +229,28 @@ Person* avl_tree<CPF>::search_by_CPF(Node<CPF> *node, CPF cpf) {
     return search_by_CPF(node->right, cpf);
 }
 
+/**
+ * A pesquisa por nome é feita de forma iterativa, visto que eu posso
+ * ter mais de uma pessoa como resultado da pesquisa, então tenho de
+ * retornar um vetor de pessoas.
+ * 
+ * Neste caso eu retorno um vetor de ponteiros para pessoas, cujos
+ * dados são acessados pela função pública.
+*/
+
 template <>
 vector<Person*> avl_tree<string>::search_by_name(Node<string> *node, string name) {
     vector<Person*> people_with_name;
-    stack<Node<string>*> nodes_stack;
+    stack<Node<string>*> node_stack;
 
-    while(node != nullptr || !nodes_stack.empty()) {
+    while(node != nullptr || !node_stack.empty()) {
         while(node != nullptr) {
-            nodes_stack.push(node);
+            node_stack.push(node);
             node = node->left;
         }
 
-        node = nodes_stack.top();
-        nodes_stack.pop();
+        node = node_stack.top();
+        node_stack.pop();
 
         if(node->key.substr(0, name.length()) == name) {
             people_with_name.push_back(node->pointer_to_person);
@@ -223,6 +260,35 @@ vector<Person*> avl_tree<string>::search_by_name(Node<string> *node, string name
     }
 
     return people_with_name;
+}
+
+/**
+ * Decidi seguir a mesma lógica em relação á pesquisa por nome, visto
+ * que a pesquisa por data também pode retornar mais de uma pessoa.
+*/
+
+template <>
+vector<Person*> avl_tree<Date>::search_by_date(Node<Date> *node, Date initial_date, Date final_date) {
+    vector<Person*> people_with_date_interval;
+    stack<Node<Date>*> node_stack;
+
+    while(node != nullptr || !node_stack.empty()) {
+        while(node != nullptr) {
+            node_stack.push(node);
+            node = node->left;
+        }
+
+        node = node_stack.top();
+        node_stack.pop();
+
+        if(node->key >= initial_date && node->key <= final_date) {
+            people_with_date_interval.push_back(node->pointer_to_person);
+        }
+
+        node = node->right;
+    }
+
+    return people_with_date_interval;
 }
 
 template <typename type>
