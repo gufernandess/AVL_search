@@ -44,6 +44,10 @@ public:
         return output;
     }
 
+    /**
+     * Sobrecarga de operadores de comparação.
+    */
+
     bool operator==(const CPF& cpf) const {
         return this->cpf == cpf.getCPF();
     }
@@ -65,6 +69,12 @@ public:
     unsigned long long int getCPF() const { return cpf; }
 
 private:
+
+/**
+ * Um adendo importnte: Técnicamente o CPF não pode ser armazenado como um inteiro, pois o mesmo
+ * pode começar com 0, e o 0 é ignorado quando armazenado como inteiro, o que caracteriza
+ * um valor octal (números que começam em 0 e possuem apenas os dígitos de 0 a 7).
+*/
 
     unsigned long long int cpf;
 

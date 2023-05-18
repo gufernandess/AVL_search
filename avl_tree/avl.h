@@ -29,7 +29,6 @@ public:
 
     ~avl_tree();
 
-    
 private:
 
     Node<type> *root { nullptr };
@@ -263,8 +262,8 @@ vector<Person*> avl_tree<string>::search_by_name(Node<string> *node, string name
 }
 
 /**
- * Decidi seguir a mesma lógica em relação á pesquisa por nome, visto
- * que a pesquisa por data também pode retornar mais de uma pessoa.
+ * Decidi seguir a mesma lógica da pesquisa por nome, visto que a
+ * pesquisa por data também pode retornar mais de uma pessoa.
 */
 
 template <>

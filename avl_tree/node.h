@@ -4,7 +4,7 @@
 template <typename type> struct Node {
 
     type key;
-    Person *pointer_to_person;
+    Person *pointer_to_person; // Cada nó da árvore terá um ponteiro para a pessoa que ele representa.
     int height;
     Node *left;
     Node *right;
