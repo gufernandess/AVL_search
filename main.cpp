@@ -28,7 +28,7 @@ int main() {
 	}
 
     short int option = 1;
-    int key; // Variável para armazenar o código da tecla pressionada.
+    int key;
 
     unsigned long long int cpf;
     string name, initial_date, final_date;
@@ -36,7 +36,7 @@ int main() {
     while(true) {
         show_menu(option);
 
-        key = getch(); // Captura a tecla pressionada.
+        key = getch();
 
         switch(key) {
             case 72: // 72 é o código da tecla "seta para cima".
