@@ -228,36 +228,28 @@ Person* avl_tree<CPF>::search_by_CPF(Node<CPF> *node, CPF cpf) {
     return search_by_CPF(node->right, cpf);
 }
 
-/**
- * A pesquisa por nome é feita de forma iterativa, visto que eu posso
- * ter mais de uma pessoa como resultado da pesquisa, então tenho de
- * retornar um vetor de pessoas.
- * 
- * Neste caso eu retorno um vetor de ponteiros para pessoas, cujos
- * dados são acessados pela função pública.
+/*
+    Na pesquisa por nome decidi implementar uma busca recursiva, onde guardo
+    em vetores os ponteiros das pessoas das subárvores esquerda e direita e
+    vou inserindo no vetor de pessoas com o determinado nome.
 */
 
 template <>
 vector<Person*> avl_tree<string>::search_by_name(Node<string> *node, string name) {
     vector<Person*> people_with_name;
-    stack<Node<string>*> node_stack;
-
-    while(node != nullptr || !node_stack.empty()) {
-        while(node != nullptr) {
-            node_stack.push(node);
-            node = node->left;
-        }
-
-        node = node_stack.top();
-        node_stack.pop();
-
-        if(node->key.substr(0, name.length()) == name) {
-            people_with_name.push_back(node->pointer_to_person);
-        }
-
-        node = node->right;
+    
+    if(node == nullptr) return {};
+    
+    if(node->key == name || node->key.substr(0, name.length()) == name) {
+        people_with_name.push_back(node->pointer_to_person);
     }
+    
+    vector<Person*> left = search_by_name(node->left, name);
+    people_with_name.insert(people_with_name.end(), left.begin(), left.end());
 
+    vector<Person*> right = search_by_name(node->right, name);
+    people_with_name.insert(people_with_name.end(), right.begin(), right.end());
+    
     return people_with_name;
 }
 
@@ -269,24 +261,19 @@ vector<Person*> avl_tree<string>::search_by_name(Node<string> *node, string name
 template <>
 vector<Person*> avl_tree<Date>::search_by_date(Node<Date> *node, Date initial_date, Date final_date) {
     vector<Person*> people_with_date_interval;
-    stack<Node<Date>*> node_stack;
-
-    while(node != nullptr || !node_stack.empty()) {
-        while(node != nullptr) {
-            node_stack.push(node);
-            node = node->left;
-        }
-
-        node = node_stack.top();
-        node_stack.pop();
-
-        if(node->key >= initial_date && node->key <= final_date) {
-            people_with_date_interval.push_back(node->pointer_to_person);
-        }
-
-        node = node->right;
+    
+    if(node == nullptr) return {};
+    
+    if(node->key >= initial_date && node->key <= final_date) {
+        people_with_date_interval.push_back(node->pointer_to_person);
     }
+    
+    vector<Person*> left = search_by_date(node->left, initial_date, final_date);
+    people_with_date_interval.insert(people_with_date_interval.end(), left.begin(), left.end());
 
+    vector<Person*> right = search_by_date(node->right, initial_date, final_date);
+    people_with_date_interval.insert(people_with_date_interval.end(), right.begin(), right.end());
+    
     return people_with_date_interval;
 }
 

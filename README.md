@@ -5,8 +5,6 @@
     </p>
 </div>
 
-<hr class="dashed">
-
 <div align="justify">
     <h2>Introdução</h2>
     <p>
@@ -74,9 +72,7 @@
 
 ## Requisitos
 - [x] Consultar pessoa pelo CPF e exibir seus dados na tela;
-
 - [x] Consultar pessoas pelo nome e exibir seus dados na tela;
-
 - [x] Consultar pessoas por intervalo de datas de nascimento e exibir seus dados na tela.
 
 ## Autor
