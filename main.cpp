@@ -1,6 +1,5 @@
 #include <vector>
 #include <iostream>
-#include <Windows.h> // Biblioteca para trabalhar no ambiente do sistema operacional Windows.
 
 #include "person/Person.h"
 #include "date/Date.h"
@@ -50,8 +49,6 @@ int main() {
             case 13: // 13 é o código da tecla "enter".
                 switch(option) {
                     case 1:
-                        system("cls");
-
                         avl_tree_cpf.bshow();
 
                         cout << "\n";
@@ -62,8 +59,6 @@ int main() {
                         break;
 
                     case 2:
-                        system("cls");
-
                         avl_tree_name.bshow();
 
                         cout << "\n";
@@ -74,7 +69,6 @@ int main() {
                         break;
 
                     case 3:
-                        system("cls");
                         avl_tree_birthdate.bshow();
 
                         cout << "\n";
@@ -85,8 +79,6 @@ int main() {
                         break;
 
                     case 4:
-                        system("cls");
-
                         cout << "\n";
 
                         cout << "Digite o CPF procurado (Utilize apenas números): " << endl;
@@ -104,8 +96,6 @@ int main() {
                         break;
 
                     case 5:
-                        system("cls");
-
                         cout << "\n";
 
                         cout << "Digite o nome procurado: " << endl;
@@ -125,8 +115,6 @@ int main() {
                         break;
 
                     case 6:
-                        system("cls");
-
                         cout << "\n";
 
                         cout << "Insira a data inicial (insira no formato 'mm/dd/yyyy') " << endl;
