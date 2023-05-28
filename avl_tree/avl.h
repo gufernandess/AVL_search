@@ -229,9 +229,10 @@ Person* avl_tree<CPF>::search_by_CPF(Node<CPF> *node, CPF cpf) {
 }
 
 /*
-    Na pesquisa por nome decidi implementar uma busca recursiva, onde guardo
-    em vetores os ponteiros das pessoas das subárvores esquerda e direita e
-    vou inserindo no vetor de pessoas com o determinado nome.
+    Na pesquisa por nome decidi implementar uma busca recursiva, onde comparo
+    as chaves dos nós com o nome dado por parâmetro, e se a chave do nó passar 
+    na condição, o mesmo é adicionado no vetor, além de que a função é chamada
+    para ambos os filhos do nó posteriormente.
 */
 
 template <>
@@ -240,21 +241,28 @@ vector<Person*> avl_tree<string>::search_by_name(Node<string> *node, string name
     
     if(node == nullptr) return {};
     
-    if(node->key == name || node->key.substr(0, name.length()) == name) {
+    int comparation = name.compare(node->key.substr(0, name.length()));
+    
+    if(comparation == 0) {
         people_with_name.push_back(node->pointer_to_person);
     }
     
-    vector<Person*> left = search_by_name(node->left, name);
-    people_with_name.insert(people_with_name.end(), left.begin(), left.end());
+    if(comparation <= 0) {
+        vector<Person*> left = search_by_name(node->left, name);
+        people_with_name.insert(people_with_name.end(), left.begin(), left.end());
+    }
 
-    vector<Person*> right = search_by_name(node->right, name);
-    people_with_name.insert(people_with_name.end(), right.begin(), right.end());
+    if(comparation >= 0) {
+        vector<Person*> right = search_by_name(node->right, name);
+        people_with_name.insert(people_with_name.end(), right.begin(), right.end());
+    }
     
     return people_with_name;
 }
 
+
 /**
- * Decidi seguir a mesma lógica da pesquisa por nome, visto que a
+ * Decidi seguir uma lógica semelhante da pesquisa por nome, visto que a
  * pesquisa por data também pode retornar mais de uma pessoa.
 */
 

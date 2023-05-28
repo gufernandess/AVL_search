@@ -1,0 +1,34 @@
+Este projeto foi implementado para a disciplina de Estrutura de Dados Avançada (EDA), visando o estudo e aprofundamento em
+árvores balanceadas e suas aplicações práticas na resolução de problemas do dia-a-dia.
+
+O projeto consiste em, dado um determinado banco de dados com informações de centenas de pessoas, usar árvores balanceadas para
+a disposição e consulta destes dados, com o principal objetivo de realizar consultas sob esses dados em complexidade de tempo
+O(log n), garantindo eficiência na resposta às consultas.
+
+Para a implementação deste projeto foi utilizado a linguagem de programação C++, junto do paradigma de Orientação a Objetos
+e de templates para a construção da árvore e das demais entidades necessárias. A IDE/editor de código utilizado para a
+implementação foi o VScode, além de que o SO utilizado durante a implementação foi o Windows 11.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Antes de tudo, é necessário verificar se a sua máquina possui o compilador para C++ instalado, só desta forma será possível
+executar a aplicação. Sistemas operacionais baseados em Ubuntu/Debian/Arch possuem o compilador em seu sistema por padrão,
+e o MacOS possui o compilador equivalente Clang para o padrão C++, logo a verificação só é necessária em sistemas Windows.
+
+Feita a instalação correta do g++, a primeira tarefa a ser feita é a de clonar o repositório para a sua máquina.
+Para isso, execute o seguinte código em seu terminal:
+
+git clone git@github.com:gufernandess/AVL_search.git
+
+Após clonar o repositório, entre no diretório do projeto:
+
+cd AVL_search
+
+Compile e execute:
+
+g++ main.cpp -o main
+
+main
+
+E pronto! Se tudo correr bem, a aplicação será inicializada dentro do terminal e você poderá testar
+todas as funcionalidades do sistema!

@@ -11,7 +11,7 @@
 using namespace std;
 
 int main() {
-    cin .tie(0) -> sync_with_stdio(0); // Desativa a sincronização com o C e C++ para melhorar a performance de leitura e escrita de dados.
+    cin.tie(0) -> sync_with_stdio(0); // Desativa a sincronização com o C e C++ para melhorar a performance de leitura e escrita de dados.
 	system("chcp 65001 > nul"); // Define o encode para impressão correta das árvores (usado para a função bshow).
     SetConsoleOutputCP(CP_UTF8); // Define a codificação do console para UTF-8 (usado para reconhecer a codificação do CSV).
 

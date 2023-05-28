@@ -14,7 +14,7 @@
         O projeto consiste em, dado um determinado banco de dados com informações de centenas de pessoas, usar árvores balanceadas para a disposição e consulta destes dados, com o principal objetivo de realizar consultas sob esses dados em complexidade de tempo O(log n), garantindo eficiência na resposta às consultas.
     </p>
     <p>
-        Para a implementação deste projeto foi utilizado a linguagem de programação C++, junto do paradigma de Orientação a Objetos e de templates para a construção da árvore e das demais entidades necessárias. A IDE/editor de código utilizado para a implementação foi o VScode.
+        Para a implementação deste projeto foi utilizado a linguagem de programação C++, junto do paradigma de Orientação a Objetos e de templates para a construção da árvore e das demais entidades necessárias. A IDE/editor de código utilizado para a implementação foi o VScode, além de que o SO utilizado durante a implementação foi o Windows 11.
     </p>
 </div>
 
